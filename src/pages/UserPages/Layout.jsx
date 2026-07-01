@@ -132,7 +132,7 @@ const Layout = () => {
                 <div className="max-w-5xl mx-auto px-6 py-8 flex flex-col md:flex-row items-center justify-between gap-4">
                     <div className="flex items-center gap-2 text-gray-500 text-sm">
                         <img className="h-18" src={logo} alt="" />
-                        Proudly powered by Cosmic
+                        Proudly powered by made.what
                     </div>
 
                     <div className="flex items-center gap-5">
