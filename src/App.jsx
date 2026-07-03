@@ -1,9 +1,10 @@
 import { useContext } from 'react';
-import { ToastContainer } from 'react-toastify';
 import { AuthContext } from './context/AuthContext.jsx';
 import UserRoutes from "../src/routes/UserRoutes.jsx"
 import AuthRoutes from "../src/routes/AuthRoutes.jsx"
 import DotSpinner from "./components/DotSpinner.jsx"
+import { Toaster } from 'react-hot-toast';
+
 
 const App = () => {
   const { user , isloading } = useContext(AuthContext)
@@ -19,7 +20,7 @@ const App = () => {
   return (
     <>
      { user ? <UserRoutes /> : <AuthRoutes />}
-     <ToastContainer />
+     <Toaster />
     </>
   )
 }

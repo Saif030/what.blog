@@ -1,4 +1,4 @@
-import { toast } from "react-toastify";
+import { toast } from "react-hot-toast";
 import { account , databases , db , DATABASE_ID , POST_TABLE_ID , TABLE_ID } from "../lib/appwrite.js"
 import { ID } from "appwrite";
 import { specificUser } from "./datafetch.js"

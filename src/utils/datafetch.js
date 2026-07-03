@@ -1,6 +1,6 @@
-import { toast } from "react-toastify";
-import { account , databases , db , DATABASE_ID , POST_TABLE_ID , TABLE_ID } from "../lib/appwrite.js"
-import { ID , Query } from "appwrite";
+import { toast } from "react-hot-toast";
+import { account, db , DATABASE_ID , TABLE_ID } from "../lib/appwrite.js"
+import { Query } from "appwrite";
 
 const getUser = async () => {
     try{
@@ -21,17 +21,12 @@ const getUser = async () => {
     }
 }
 
-const getUserPosts = async () => {
+const getUserPosts = async (userId) => {
     try{
-        const user = await account.get()
-        if(!user){
-            toast.error("user not found")
-            return
-        }
         const result = await db.listRows({
             databaseId: DATABASE_ID,
             tableId: "posts",
-            queries: [Query.equal("userId", user.$id)]
+            queries: [Query.equal("userId", userId)]
         });
 
         return result

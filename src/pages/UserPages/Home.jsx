@@ -1,16 +1,21 @@
-import { logo } from "../../assets/assets.js"
 import { Link } from "react-router-dom";
 import { useEffect , useContext } from "react";
+import ViewUser from "./ViewUser.jsx";
 import { DataContext } from "../../context/DataContext.jsx"
-import DotSpinner from "../../components/DotSpinner.jsx"
 
 const Home = () => {
 
-  const { allposts , fetchallposts  } = useContext(DataContext)
+  const { allposts , fetchallposts , isViewingUser , setisViewingUser , setviewingUserId , fetchViewUser  } = useContext(DataContext)
 
   useEffect(() => {
     fetchallposts()
   },[])
+
+  const handleViewUser = async (userId) => {
+    setviewingUserId(userId)
+    setisViewingUser(true)
+    await fetchViewUser(userId)
+  }
 
   return (
     <div className="min-h-screen bg-[#0f0f0f] text-gray-300 py-[0.1px]">
@@ -38,9 +43,11 @@ const Home = () => {
                 { post?.author_image ? <img className="w-10 h-10 rounded-full object-cover" src={post?.author_image} alt={post?.author_name} /> : <span>{post?.author_name[0].toUpperCase()}</span>}
                 <div className="text-sm">
                   <span className="text-gray-400">by </span>
-                  <a href="#" className="text-[#8e76d6] font-semibold hover:underline">
+                  <p onClick={() => {
+                    handleViewUser(post?.userId);
+                  }} className="text-[#8e76d6] cursor-pointer inline-block font-semibold hover:underline">
                     {post?.author_name}
-                  </a>
+                  </p>
                   <span className="text-gray-400"> on {new Date(post?.$createdAt).toLocaleDateString()}</span>
                 </div>
               </div>
@@ -70,6 +77,8 @@ const Home = () => {
       <div className="max-w-5xl mx-auto flex justify-center items-center p-4 mt-2">
         <Link to={"/post"} className="px-12 py-3 bg-purple-700 cursor-pointer rounded-full">Publish Blog</Link>
       </div>
+
+      {isViewingUser && <ViewUser />}
     </div>
   );
 };

@@ -1,6 +1,6 @@
 import { createContext, useEffect, useState } from "react";
-import { toast } from "react-toastify";
-import { getUser , getUserPosts , getPost , dbgetPosts } from "../utils/datafetch.js";
+import { toast } from "react-hot-toast";
+import { getUser , getUserPosts , getPost , dbgetPosts , specificUser } from "../utils/datafetch.js";
 import { userdbUpdate , dbPostDelete } from "../utils/dbUpload.js"
 
 export const DataContext = createContext();
@@ -11,11 +11,15 @@ const DataProvider = ({children}) => {
     const [userPosts , setuserPosts] = useState(null)
     const [post ,setpost] = useState(null);
     const [allposts,setallposts] = useState(null);
+    const [viewUser, setviewUser] = useState(null);
+    const [isViewingUser, setisViewingUser] = useState(false);
+    const [viewingUserId, setviewingUserId] = useState(null);
+    const [viewUserPosts, setviewUserPosts] = useState(null);
 
     async function fetchUser(){
         try{
             const result = await getUser()
-            const posts = await getUserPosts()
+            const posts = await getUserPosts(result.$id)
             setuserData(result)
             setuserPosts(posts)
         }catch(error){
@@ -63,6 +67,21 @@ const DataProvider = ({children}) => {
         }
     }
 
+    async function fetchViewUser(userId){
+        try{
+            const result = await specificUser(userId)
+            const posts = await getUserPosts(userId)
+            setviewUser(result)
+            setviewUserPosts(posts)
+            setisViewingUser(true)
+            setviewingUserId(userId)
+        }catch(error){
+            setviewUser(null)
+            setisViewingUser(false)
+            setviewingUserId(null)
+        }
+    }
+
     useEffect(() => {
         fetchUser()
     },[])
@@ -79,7 +98,16 @@ const DataProvider = ({children}) => {
             post,
             allposts,
             fetchallposts,
-            deletePost
+            deletePost,
+            viewUser,
+            setviewUser,
+            isViewingUser,
+            setisViewingUser,
+            viewingUserId,
+            setviewingUserId,
+            fetchViewUser,
+            viewUserPosts,
+            setviewUserPosts
         }}>
             {children}
         </DataContext.Provider>

@@ -1,10 +1,17 @@
-import { useState , useContext, useEffect } from "react";
+import { useContext, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { DataContext } from "../../context/DataContext";
+import ViewUser from "./ViewUser.jsx";
 
 const Post = () => {
-  const { fetchpost , post } = useContext(DataContext);
+  const { fetchpost , post, isViewingUser , setisViewingUser , setviewingUserId , fetchViewUser } = useContext(DataContext);
   const pId = useParams()
+
+  const handleViewUser = async (userId) => {
+    setviewingUserId(userId)
+    setisViewingUser(true)
+    await fetchViewUser(userId)
+  }
 
   useEffect(() => {
     fetchpost(pId.id)
@@ -27,9 +34,9 @@ const Post = () => {
               className="w-12 h-12 rounded-full object-cover"
             />
             <div>
-              <a href="#" className="text-[#5eead4] font-semibold hover:underline">
+              <p onClick={() => handleViewUser(post?.userId)} className="text-[#5eead4] font-semibold hover:underline cursor-pointer">
                @{post?.author_name}
-              </a>
+              </p>
               <div className="flex items-center gap-2 text-sm text-gray-500 mt-0.5">
                 <span>{new Date(post?.$createdAt).toLocaleString()}</span>
               </div>
@@ -49,6 +56,7 @@ const Post = () => {
         {/* Post Content */}
         <article className="prose prose-invert prose-lg max-w-none mb-12" dangerouslySetInnerHTML={{ __html: post?.content }} />
       </main>
+      {isViewingUser && <ViewUser />}
     </div>
   );
 };

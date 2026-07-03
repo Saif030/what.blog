@@ -1,10 +1,9 @@
 import { Outlet, Link, useNavigate } from "react-router-dom";
 import { useContext, useState } from 'react';
-import { logout } from "../../utils/auth.js"
 import { DataContext } from '../../context/DataContext.jsx';
 import { AuthContext } from '../../context/AuthContext.jsx';
 import { logo } from "../../assets/assets.js"
-import { LogOut, Menu, X } from 'lucide-react';
+import { LogOut, Menu, X, PersonStanding, Pen } from 'lucide-react';
 import DotSpinner from "../../components/DotSpinner.jsx";
 
 const Layout = () => {
@@ -99,7 +98,7 @@ const Layout = () => {
                                 onClick={() => setMenuOpen(false)}
                                 className="flex items-center gap-3 px-4 py-3 rounded-xl text-gray-300 hover:bg-zinc-900 hover:text-white transition"
                             >
-                                <span className="w-8 h-8 rounded-full bg-zinc-800 flex items-center justify-center text-sm">👤</span>
+                                <PersonStanding size={24}/>
                                 Profile
                             </Link>
                             <Link
@@ -107,7 +106,7 @@ const Layout = () => {
                                 onClick={() => setMenuOpen(false)}
                                 className="flex items-center gap-3 px-4 py-3 rounded-xl text-gray-300 hover:bg-zinc-900 hover:text-white transition"
                             >
-                                <span className="w-8 h-8 rounded-full bg-zinc-800 flex items-center justify-center text-sm">✍️</span>
+                                <Pen size={24} />
                                 Write Post
                             </Link>
                         </div>
